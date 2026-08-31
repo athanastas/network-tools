@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPCONFIG Commands Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .header-icon {
+            font-size: 32px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #79c0ff;
+            font-weight: bold;
+        }
+
+        .header p {
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Search & Filter Section */
+        .controls-section {
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            color: #79c0ff;
+            font-size: 16px;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-btn {
+            padding: 8px 12px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .category-btn:hover {
+            border-color: #58a6ff;
+        }
+
+        .category-btn.active {
+            background-color: #1f6feb;
+            border-color: #58a6ff;
+            color: #c9d1d9;
+        }
+
+        /* Commands Grid */
+        .commands-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .command-card {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .command-card:hover {
+            border-color: #58a6ff;
+        }
+
+        .command-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .command-code {
+            display: inline-block;
+            background-color: #161b22;
+            color: #79c0ff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #79c0ff;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(121, 192, 255, 0.1);
+        }
+
+        .copy-btn.copied {
+            color: #56d364;
+            background-color: rgba(35, 134, 54, 0.2);
+        }
+
+        .command-desc {
+            color: #c9d1d9;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .command-details {
+            font-size: 13px;
+            color: #8b949e;
+        }
+
+        .command-details p {
+            margin-bottom: 5px;
+        }
+
+        .detail-label {
+            color: #79c0ff;
+            font-weight: 500;
+        }
+
+        /* Troubleshooting Section */
+        .section-title {
+            font-size: 20px;
+            color: #79c0ff;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .troubleshooting-steps {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #1f6feb;
+            color: #c9d1d9;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .step-content p {
+            color: #c9d1d9;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .step-command {
+            background-color: #0d1117;
+            color: #79c0ff;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 6px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            display: grid;
+            gap: 10px;
+        }
+
+        .info-item {
+            padding: 12px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+
+        .info-code {
+            color: #79c0ff;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .info-desc {
+            color: #8b949e;
+            font-size: 12px;
+        }
+
+        /* Tip Box */
+        .tip-box {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .tip-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .tip-content h3 {
+            color: #79c0ff;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .tip-content p {
+            color: #8b949e;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .tip-code {
+            color: #79c0ff;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .categories {
+                gap: 8px;
+            }
+
+            .category-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="header-icon">⌘</div>
+                <h1>IPCONFIG COMMANDS</h1>
+            </div>
+            <p>Powerful built-in commands to view and manage network configuration in Windows</p>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="controls-section">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search commands..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="categories" id="categoriesContainer"></div>
+        </div>
+
+        <!-- Commands Grid -->
+        <div class="commands-grid" id="commandsContainer"></div>
+
+        <!-- Troubleshooting Section -->
+        <div style="margin-top: 40px;">
+            <h2 class="section-title">Troubleshooting Workflow</h2>
+            <div class="troubleshooting-steps" id="troubleshootingContainer"></div>
+        </div>
+
+        <!-- Switches & Related Commands -->
+        <div class="two-columns" style="margin-top: 40px;">
+            <div>
+                <h2 class="section-title">Common Switches</h2>
+                <div class="info-box" id="switchesContainer"></div>
+            </div>
+            <div>
+                <h2 class="section-title">Related Commands</h2>
+                <div class="info-box" id="relatedContainer"></div>
+            </div>
+        </div>
+
+        <!-- Tip Box -->
+        <div class="tip-box">
+            <div class="tip-icon">💡</div>
+            <div class="tip-content">
+                <h3>Quick Tip</h3>
+                <p>
+                    Run <span class="tip-code">ipconfig /all</span> to get complete network details when troubleshooting. 
+                    Use <span class="tip-code">/flushdns</span> when websites won't load. Renew your IP with 
+                    <span class="tip-code">/release</span> then <span class="tip-code">/renew</span> if facing connectivity issues.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const commands = [
+            {
+                id: 1,
+                category: 'basic',
+                command: 'ipconfig',
+                syntax: 'ipconfig',
+                description: 'Displays basic IP configuration.',
+                example: 'ipconfig',
+                output: 'Show IP address, subnet mask, default gateway'
+            },
+            {
+                id: 2,
+                category: 'basic',
+                command: 'ipconfig /all',
+                syntax: 'ipconfig /all',
+                description: 'Displays full configuration details.',
+                example: 'ipconfig /all',
+                output: 'Show everything including MAC address, DHCP info, DNS, etc.'
+            },
+            {
+                id: 3,
+                category: 'release',
+                command: 'ipconfig /release',
+                syntax: 'ipconfig /release',
+                description: 'Releases the current IP address.',
+                example: 'ipconfig /release',
+                output: 'Sends the IP address back to DHCP server'
+            },
+            {
+                id: 4,
+                category: 'renew',
+                command: 'ipconfig /renew',
+                syntax: 'ipconfig /renew',
+                description: 'Requests a new IP address.',
+                example: 'ipconfig /renew',
+                output: 'Gets a new IP from DHCP server'
+            },
+            {
+                id: 5,
+                category: 'dns',
+                command: 'ipconfig /flushdns',
+                syntax: 'ipconfig /flushdns',
+                description: 'Flushes the DNS resolver cache.',
+                example: 'ipconfig /flushdns',
+                output: 'Clears stored DNS entries'
+            },
+            {
+                id: 6,
+                category: 'dns',
+                command: 'ipconfig /displaydns',
+                syntax: 'ipconfig /displaydns',
+                description: 'Display DNS resolver cache.',
+                example: 'ipconfig /displaydns',
+                output: 'Show DNS records cached locally'
+            },
+            {
+                id: 7,
+                category: 'dns',
+                command: 'ipconfig /registerdns',
+                syntax: 'ipconfig /registerdns',
+                description: 'Refreshes DNS registration.',
+                example: 'ipconfig /registerdns',
+                output: 'Updates DNS records with server'
+            },
+            {
+                id: 8,
+                category: 'dhcp',
+                command: 'ipconfig /showclaassid',
+                syntax: 'ipconfig /showclaassid',
+                description: 'Shows DHCP class ID.',
+                example: 'ipconfig /showclaassid',
+                output: 'Display DHCP class ID'
+            },
+            {
+                id: 9,
+                category: 'dhcp',
+                command: 'ipconfig /setclassid',
+                syntax: 'ipconfig /setclassid "MyPC"',
+                description: 'Sets the DHCP class ID.',
+                example: 'ipconfig /setclassid "MyPC"',
+                output: 'Set DHCP class ID to "MyPC"'
+            },
+            {
+                id: 10,
+                category: 'ipv6',
+                command: 'ipconfig /release6',
+                syntax: 'ipconfig /release6',
+                description: 'Releases IPv6 address.',
+                example: 'ipconfig /release6',
+                output: 'Releases the IPv6 address'
+            },
+            {
+                id: 11,
+                category: 'ipv6',
+                command: 'ipconfig /renew6',
+                syntax: 'ipconfig /renew6',
+                description: 'Renews IPv6 address.',
+                example: 'ipconfig /renew6',
+                output: 'Gets a new IPv6 address'
+            },
+            {
+                id: 12,
+                category: 'advanced',
+                command: 'ipconfig /allcompartments',
+                syntax: 'ipconfig /allcompartments',
+                description: 'Shows info for all compartments.',
+                example: 'ipconfig /allcompartments',
+                output: 'Display all network compartments'
+            }
+        ];
+
+        const categories = [
+            { id: 'all', label: 'All Commands' },
+            { id: 'basic', label: 'Basic' },
+            { id: 'release', label: 'Release' },
+            { id: 'renew', label: 'Renew' },
+            { id: 'dns', label: 'DNS' },
+            { id: 'dhcp', label: 'DHCP' },
+            { id: 'ipv6', label: 'IPv6' },
+            { id: 'advanced', label: 'Advanced' }
+        ];
+
+        const switches = [
+            { label: '/all', description: 'Show all details' },
+            { label: '/renew', description: 'Request new IP from DHCP server' },
+            { label: '/flushdns', description: 'Flush DNS resolver cache' },
+            { label: '/displaydns', description: 'Display DNS cache' },
+            { label: '/release', description: 'Release IP address' },
+            { label: '/registerdns', description: 'Refresh DNS registration' },
+            { label: '/showclaassid', description: 'Show DHCP class ID' },
+            { label: '/setclassid', description: 'Set DHCP class ID' }
+        ];
+
+        const relatedCommands = [
+            { cmd: 'ping', desc: 'Test connectivity to a host' },
+            { cmd: 'tracert', desc: 'Trace the route to a host' },
+            { cmd: 'netstat', desc: 'Display network statistics' }
+        ];
+
+        const troubleshootingSteps = [
+            { step: 1, action: 'Check IP Configuration', command: 'ipconfig' },
+            { step: 2, action: 'Check Full Details', command: 'ipconfig /all' },
+            { step: 3, action: 'Test Connectivity', command: 'ping <gateway or host>' },
+            { step: 4, action: 'Flush DNS Cache', command: 'ipconfig /flushdns' },
+            { step: 5, action: 'Renew IP Address', command: 'ipconfig /release then ipconfig /renew' }
+        ];
+
+        // State
+        let selectedCategory = 'all';
+        let searchTerm = '';
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const commandsContainer = document.getElementById('commandsContainer');
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        const troubleshootingContainer = document.getElementById('troubleshootingContainer');
+        const switchesContainer = document.getElementById('switchesContainer');
+        const relatedContainer = document.getElementById('relatedContainer');
+
+        // Initialize
+        function init() {
+            renderCategories();
+            renderCommands();
+            renderTroubleshooting();
+            renderSwitches();
+            renderRelated();
+
+            searchInput.addEventListener('input', (e) => {
+                searchTerm = e.target.value;
+                renderCommands();
+            });
+        }
+
+        // Render categories
+        function renderCategories() {
+            categoriesContainer.innerHTML = categories.map(cat => `
+                <button 
+                    class="category-btn ${cat.id === selectedCategory ? 'active' : ''}"
+                    onclick="selectCategory('${cat.id}')"
+                >
+                    ${cat.label}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(catId) {
+            selectedCategory = catId;
+            renderCategories();
+            renderCommands();
+        }
+
+        // Render commands
+        function renderCommands() {
+            const filtered = commands.filter(cmd => {
+                const matchesSearch = 
+                    cmd.command.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    cmd.description.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesCategory = selectedCategory === 'all' || cmd.category === selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            if (filtered.length === 0) {
+                commandsContainer.innerHTML = '<div class="empty-state">No commands found matching your search.</div>';
+                return;
+            }
+
+            commandsContainer.innerHTML = filtered.map(cmd => `
+                <div class="command-card">
+                    <div class="command-header">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span class="command-code">${escapeHtml(cmd.command)}</span>
+                                <button 
+                                    class="copy-btn" 
+                                    onclick="copyToClipboard('${escapeHtml(cmd.syntax)}', ${cmd.id})"
+                                    title="Copy to clipboard"
+                                >
+                                    📋
+                                </button>
+                            </div>
+                            <p class="command-desc">${escapeHtml(cmd.description)}</p>
+                            <div class="command-details">
+                                <p><span class="detail-label">Example:</span> ${escapeHtml(cmd.example)}</p>
+                                <p><span class="detail-label">Output:</span> ${escapeHtml(cmd.output)}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render troubleshooting
+        function renderTroubleshooting() {
+            troubleshootingContainer.innerHTML = troubleshootingSteps.map(item => `
+                <div class="step-item">
+                    <div class="step-number">${item.step}</div>
+                    <div class="step-content">
+                        <p>${escapeHtml(item.action)}</p>
+                        <span class="step-command">${escapeHtml(item.command)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render switches
+        function renderSwitches() {
+            switchesContainer.innerHTML = switches.map((sw, idx) => `
+                <div class="info-item">
+                    <div class="info-code">${escapeHtml(sw.label)}</div>
+                    <div class="info-desc">${escapeHtml(sw.description)}</div>
+                </div>
+            `).join('');
+        }
+
+        // Render related commands
+        function renderRelated() {
+            relatedContainer.innerHTML = relatedCommands.map((cmd, idx) => `
+                <div class="info-item">
+                    <div class="info-code">${escapeHtml(cmd.cmd)}</div>
+                    <div class="info-desc">${escapeHtml(cmd.desc)}</div>
+                </div>
+            `).join('');
+        }
+
+        // Copy to clipboard
+        function copyToClipboard(text, id) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('.copy-btn');
+                btn.classList.add('copied');
+                btn.textContent = '✓';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.textContent = '📋';
+                }, 2000);
+            });
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+</html>
