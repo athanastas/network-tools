@@ -1,1 +1,190 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Network Engineer Cheat Sheet</title>
+<style>
+:root{--bg:#f3f6fa;--surface:#fff;--ink:#0f1c2e;--mute:#5a6b82;--line:#d5dde8;--code-bg:#0f1c2e;--code:#ffd84d;--accent:#1d4ed8;--ok:#15803d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--surface:#131d30;--ink:#e6edf7;--mute:#93a3bb;--line:#26344d;--code-bg:#060b14;--code:#ffd84d;--accent:#6ea0ff;--ok:#4ade80}}
+:root[data-theme="dark"]{--bg:#0b1220;--surface:#131d30;--ink:#e6edf7;--mute:#93a3bb;--line:#26344d;--code-bg:#060b14;--code:#ffd84d;--accent:#6ea0ff;--ok:#4ade80}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header,main{max-width:980px;margin:0 auto;padding:0 16px}
+header{padding-top:20px}
+h1{font-size:1.7rem;margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 16px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding:8px 0;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#q{width:100%;margin-top:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit}
+section{display:none;padding:16px 0 40px}
+section.on{display:block}
+h2{font-size:1.05rem;margin:22px 0 8px;color:var(--mute);font-weight:600}
+.row{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+@media(min-width:640px){.row{grid-template-columns:minmax(0,18rem) minmax(0,1fr);align-items:center;gap:16px}}
+.cmd{display:flex;align-items:center;gap:8px;background:var(--code-bg);border-radius:8px;padding:6px 6px 6px 10px;min-width:0}
+code{font:.88rem ui-monospace,Menlo,Consolas,monospace;color:var(--code);overflow-x:auto;white-space:nowrap;flex:1}
+.cp{flex:none;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:6px;padding:4px 9px;font-size:.78rem;cursor:pointer}
+.cp.done{background:var(--ok)}
+.desc{margin:0}
+.tag{font-size:.75rem;color:var(--mute)}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;padding:10px 12px}
+.step h3{margin:0 0 6px;font-size:.98rem}
+pre{margin:0;background:var(--code-bg);color:var(--code);border-radius:8px;padding:10px;overflow-x:auto;font:.85rem/1.5 ui-monospace,Menlo,Consolas,monospace}
+.note{border-left:4px solid var(--accent);background:var(--surface);padding:10px 12px;border-radius:0 10px 10px 0;margin:12px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 12px;font:inherit;font-size:.88rem;cursor:pointer}
+.topo{display:flex;align-items:center;gap:4px;overflow-x:auto;padding:12px 0}
+.node{flex:none;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:104px;font-size:.85rem}
+.node b{display:block}
+.tun{flex:1 0 110px;text-align:center;font-size:.8rem;color:var(--accent);border-top:3px dashed var(--accent);padding-top:4px;min-width:110px}
+.grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.empty{color:var(--mute);padding:20px 0}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+td,th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem}
+.hl{outline:2px solid var(--accent)}
+</style>
+</head>
+<body>
+<header>
+<h1>Network Engineer Cheat Sheet</h1>
+<p class="sub">Linux and Windows commands, a Cisco switch setup and a site-to-site IPsec VPN overview. Tap a command to copy it.</p>
+</header>
+<div class="bar"><div style="max-width:980px;margin:0 auto;padding:0 16px">
+<div class="tabs" role="tablist" id="tabs"></div>
+<input id="q" type="search" placeholder="Filter commands (for example: dns, firewall, port)" aria-label="Filter commands">
+</div></div>
+<main>
+<section id="linux"></section>
+<section id="win"></section>
+<section id="cisco"></section>
+<section id="vpn"></section>
+</main>
+<script>
+const LINUX=[
+["Interfaces & IP","ip addr","Show IP addresses of network interfaces"],
+["Interfaces & IP","ip link","Show interfaces and their status (UP/DOWN)"],
+["Interfaces & IP","ifconfig","View or configure interfaces (legacy)"],
+["Interfaces & IP","hostname -I","Show the system’s IP addresses (all interfaces)"],
+["Interfaces & IP","hostname","Show the system hostname"],
+["Routing","ip route","Display the routing table (routes, gateway)"],
+["Routing","route -n","View or configure IP routes (legacy)"],
+["Connectivity","ping 8.8.8.8","Test connectivity to a host"],
+["Connectivity","traceroute 8.8.8.8","Show the path packets take to a destination"],
+["Connectivity","mtr 8.8.8.8","Trace route with live statistics"],
+["DNS","nslookup google.com","Query DNS for a domain’s IP address"],
+["DNS","dig google.com","Detailed DNS lookup with more information"],
+["Web & transfer","curl -I https://example.com","Check HTTP/HTTPS connectivity and response headers"],
+["Web & transfer","wget URL","Download a file from a URL"],
+["Web & transfer","ssh user@host","Secure remote access"],
+["Web & transfer","scp file.txt user@host:","Copy files securely"],
+["Ports & connections","ss -tuln","Show listening ports and active services (modern)"],
+["Ports & connections","netstat -tulnp","Active connections, listening ports and processes (legacy)"],
+["Ports & connections","nmap 192.168.10.0/24","Scan a host or subnet to find open ports"],
+["Ports & connections","arp -a","Display the ARP table (IP to MAC mapping)"],
+["Firewall","firewall-cmd --list-all","Show Firewalld rules and settings"],
+["Firewall","ufw status","Check UFW firewall status and rules (Ubuntu)"],
+["Firewall","iptables -L","List firewall rules"],
+["Troubleshooting","systemctl status NetworkManager","Check the status of the network service"],
+["Troubleshooting","journalctl -u NetworkManager","View network service logs"],
+["Troubleshooting","tcpdump -i eth0","Capture and analyze traffic on an interface"],
+["Troubleshooting","top","Monitor system processes"]];
+const WIN=[
+["Configuration","ipconfig","Show network configuration"],
+["Configuration","ipconfig /all","Show detailed IP information"],
+["Configuration","ipconfig /release","Release the IP address"],
+["Configuration","ipconfig /renew","Renew the IP address"],
+["Configuration","ipconfig /flushdns","Clear the DNS cache"],
+["Connectivity","ping 8.8.8.8","Check connectivity to a server"],
+["Connectivity","tracert 8.8.8.8","Trace the route to a destination"],
+["DNS","nslookup example.com","Query DNS for domain details"],
+["Connections","netstat -an","Show active network connections"],
+["Connections","arp -a","Show the ARP cache"],
+["Identity","hostname","Display the computer name"],
+["Identity","getmac","Show MAC addresses of network adapters"],
+["Shares & services","net use","Connect to a shared resource"],
+["Shares & services","net share","List shared resources"],
+["Shares & services","net start","Show running services (or start one by name)"],
+["Shares & services","net stop SERVICE","Stop a Windows service"],
+["Configuration","netsh","Configure network settings"]];
+const STEPS=[
+["Access the CLI (from console)","Switch> enable\nSwitch# configure terminal"],
+["Set the hostname","Switch(config)# hostname S1"],
+["Disable DNS lookup (recommended)","S1(config)# no ip domain-lookup"],
+["Set the privileged EXEC password","S1(config)# enable secret C1sc0@123"],
+["Configure the console password","S1(config)# line console 0\nS1(config-line)# password cisco123\nS1(config-line)# login\nS1(config-line)# exit"],
+["Configure VTY (Telnet/SSH) password","S1(config)# line vty 0 4\nS1(config-line)# password cisco123\nS1(config-line)# login\nS1(config-line)# exit"],
+["Configure management IP (SVI, VLAN 1)","S1(config)# interface vlan 1\nS1(config-if)# ip address 192.168.10.2 255.255.255.0\nS1(config-if)# no shutdown\nS1(config-if)# exit"],
+["Save the configuration","S1(config)# end\nS1# copy running-config startup-config"]];
+const VERIFY=[["show running-config","View current configuration"],["show ip interface brief","Check VLAN 1 IP status"],["show version","Display switch model and IOS"],["show vlan brief","View VLAN information"],["show interfaces status","Check port status"]];
+const $=s=>document.querySelector(s);
+const esc=t=>t.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function copy(text,btn){
+  const ok=()=>{btn.textContent="Copied";btn.classList.add("done");setTimeout(()=>{btn.textContent=btn.dataset.l;btn.classList.remove("done")},1200)};
+  try{navigator.clipboard.writeText(text).then(ok,fb)}catch(e){fb()}
+  function fb(){try{const a=document.createElement("textarea");a.value=text;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();ok()}catch(e){btn.textContent="Copy failed"}}
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-copy]");
+  if(b){if(!b.dataset.l)b.dataset.l=b.textContent;copy(b.dataset.copy,b)}
+});
+const attr=t=>t.replace(/&/g,"&amp;").replace(/"/g,"&quot;");
+function list(id,data){
+  let h="",last="";
+  data.forEach(([g,c,d])=>{
+    if(g!==last){h+=`<h2 class="grp">${g}</h2>`;last=g}
+    h+=`<div class="row item" data-t="${attr((g+" "+c+" "+d).toLowerCase())}"><div class="cmd"><code>${esc(c)}</code><button class="cp" data-copy="${attr(c)}">Copy</button></div><p class="desc">${d}</p></div>`;
+  });
+  $("#"+id).innerHTML=h+'<p class="empty" hidden>No commands match your filter.</p>';
+}
+list("linux",LINUX);list("win",WIN);
+$("#win").insertAdjacentHTML("afterbegin",'<div class="note">Open Command Prompt as Administrator for best results: press Win + R, type <b>cmd</b>, then Ctrl + Shift + Enter.</div>');
+const all=STEPS.map(s=>s[1].split("\n").map(l=>l.replace(/^\S+[>#]\s?/,"")).join("\n")).join("\n");
+$("#cisco").innerHTML=`<div class="note">Lab: Catalyst 2960 <b>S1</b> with PC-1 (192.168.10.10/24) and PC-2 (192.168.10.20/24). Use a console cable for first access. The passwords below are lab examples only: use strong, unique ones on real equipment.</div>
+<div class="top"><h2 style="margin:0">Configuration steps</h2><button class="btn" data-copy="${attr(all)}">Copy all commands</button></div>
+${STEPS.map((s,i)=>`<div class="step item" data-t="${attr((s[0]+" "+s[1]).toLowerCase())}"><h3>${i+1}. ${s[0]}</h3><pre>${esc(s[1])}</pre></div>`).join("")}
+<h2>Verification</h2>
+${VERIFY.map(v=>`<div class="row item" data-t="${attr(v.join(" ").toLowerCase())}"><div class="cmd"><code>${v[0]}</code><button class="cp" data-copy="${v[0]}">Copy</button></div><p class="desc">${v[1]}</p></div>`).join("")}
+<h2>Expected result</h2><pre>S1# show ip interface brief
+Interface IP-Address Status Protocol
+Vlan1 192.168.10.2 up up</pre>
+<p class="empty" hidden>No steps match your filter.</p>`;
+$("#vpn").innerHTML=`<div class="note">A site-to-site IPsec VPN joins two office networks over the internet by encrypting traffic between their firewalls. Used for branch connectivity, multi-site organizations and secure data access.</div>
+<h2>Topology</h2>
+<div class="topo"><div class="node"><b>Head office</b>192.168.10.0/24<br>SW1 · FortiGate (HQ)</div><div class="tun">IPsec tunnel<br>encrypted traffic</div><div class="node"><b>Branch office</b>192.168.20.0/24<br>SW2 · FortiGate</div></div>
+<h2>How it works</h2>
+<p>Data leaves a LAN, the local firewall encrypts it with IPsec, it crosses the internet, the remote firewall decrypts it, and the data arrives on the other LAN.</p>
+<h2>IPsec components</h2>
+<table><tr><th>Part</th><th>Role</th></tr>
+<tr><td><b>IKE</b></td><td>Establishes and manages the VPN tunnel</td></tr>
+<tr><td><b>IPsec</b></td><td>Secures and encrypts the traffic</td></tr>
+<tr><td><b>AH</b></td><td>Provides data integrity and authentication</td></tr>
+<tr><td><b>ESP</b></td><td>Provides encryption, integrity and authentication</td></tr></table>
+<h2>Benefits</h2>
+<div class="grid"><div class="row">Secure (encrypted)</div><div class="row">Private connectivity</div><div class="row">Between two sites</div></div>`;
+const T=[["linux","Linux"],["win","Windows"],["cisco","Cisco switch"],["vpn","IPsec VPN"]];
+$("#tabs").innerHTML=T.map(([id,n],i)=>`<button role="tab" data-id="${id}" aria-selected="${i==0}">${n}</button>`).join("");
+function show(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===id));
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.id===id));
+  $("#q").style.display=id==="vpn"?"none":"";
+  filter();
+}
+function filter(){
+  const q=$("#q").value.trim().toLowerCase(),s=document.querySelector("section.on");
+  if(!s||s.id==="vpn")return;
+  let n=0;
+  s.querySelectorAll(".item").forEach(i=>{const m=!q||i.dataset.t.includes(q);i.hidden=!m;if(m)n++});
+  s.querySelectorAll(".grp").forEach(g=>{let el=g.nextElementSibling,any=false;while(el&&!el.classList.contains("grp")){if(el.classList.contains("item")&&!el.hidden)any=true;el=el.nextElementSibling}g.hidden=!any});
+  const e=s.querySelector(".empty");if(e)e.hidden=n>0;
+}
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.id)});
+$("#q").addEventListener("input",filter);
+show("linux");
+</script>
+</body>
+</html>
